@@ -1,7 +1,7 @@
 particlesJS("particles-js", {
   particles: {
     number: {
-      value: 100,
+      value: 65,
       density: {
         enable: true,
         value_area: 800
@@ -20,7 +20,7 @@ particlesJS("particles-js", {
         nb_sides: 5
       },
       image: {
-        src: "img/github.svg",
+        src: "",
         width: 100,
         height: 100
       }
