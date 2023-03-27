@@ -291,3 +291,60 @@ p {
     font-size: 16px;
     margin-bottom: 10px;
 }
+
+/* Interactive Live Demo styles */
+#interactive-demo .demo-content {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    color: #ffffff;
+}
+
+#interactive-demo .demo-content:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.5);
+}
+
+#interactive-live-demo {
+    position: relative;
+    z-index: 2;
+}
+
+.inputfile {
+    display: none;
+}
+
+label {
+    background-color: #FF5722;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+label:hover {
+    background-color: #FF8A65;
+}
+
+#query-container {
+    display: none;
+    margin-top: 30px;
+}
+
+#query-form input[type="text"] {
+    font-size: 16px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#response-container {
+    margin-top: 30px;
+}

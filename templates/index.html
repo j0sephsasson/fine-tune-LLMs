@@ -157,11 +157,33 @@
                     <button class="cta">Contact Us</button>
                 </div>
             </div>
+        </section> 
+        
+        <section class="section" id="interactive-live-demo">
+            <h2>Interactive Live Demo</h2>
+            <p>Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="file" class="inputfile" />
+                <label for="file">Choose a txt file</label>
+                <input type="submit" value="Upload" class="cta" />
+            </form>
+            <div id="query-container">
+                <h3>Ask your AI Assistant a question:</h3>
+                <form id="query-form">
+                    <input type="text" id="prompt" name="prompt" />
+                    <button type="submit" class="cta">Ask</button>
+                </form>
+                <div id="response-container">
+                    <h3>AI Assistant Response:</h3>
+                    <p id="response"></p>
+                </div>
+            </div>
         </section>        
         
     </div>
     <script src="/static/js/particles-config.js"></script>
     <script src="/static/js/nav.js"></script>
+    <script src="/static/js/demo.js"></script>
 </body>
 
 </html>
