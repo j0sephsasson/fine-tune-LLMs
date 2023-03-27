@@ -345,6 +345,32 @@ label:hover {
     margin-right: 10px;
 }
 
-#response-container {
+.terminal {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
     margin-top: 30px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.ai, .human {
+    font-weight: bold;
+}
+
+.ai {
+    color: #00ffff;
+}
+
+.human {
+    color: #ff7f00;
 }

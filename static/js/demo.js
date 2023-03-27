@@ -28,5 +28,18 @@ document.querySelector('#query-form').addEventListener('submit', async (event) =
         body: `prompt=${encodeURIComponent(prompt)}`
     });
     const result = await response.json();
-    document.querySelector('#response').innerText = result.result.response;
+
+    const messages = document.querySelector('.messages');
+    const userMessage = document.createElement('div');
+    userMessage.classList.add('message');
+    userMessage.innerHTML = `<span class="human">Human:</span> ${prompt}`;
+    messages.appendChild(userMessage);
+
+    const aiMessage = document.createElement('div');
+    aiMessage.classList.add('message');
+    aiMessage.innerHTML = `<span class="ai">AI:</span> ${result.result.response}`;
+    messages.appendChild(aiMessage);
+
+    // Scroll to the bottom of the terminal.
+    document.querySelector('#terminal').scrollTop = document.querySelector('#terminal').scrollHeight;
 });
