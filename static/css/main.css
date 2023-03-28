@@ -31,13 +31,12 @@ body {
     }
 } */
 
-
 #particles-js {
     position: absolute;
     width: 100%;
     height: 100%;
-    z-index: 0;
 }
+
 
 h1 {
     font-size: 48px;
@@ -195,6 +194,13 @@ p {
     padding: 125px 0;
     text-align: center;
     width: 100%;
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.section * {
+    pointer-events: auto;
 }
 
 .section-container {
@@ -293,22 +299,6 @@ p {
 }
 
 /* Interactive Live Demo styles */
-#interactive-demo .demo-content {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 5px;
-    padding: 20px;
-    margin: 15px auto;
-    max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    color: #ffffff;
-}
-
-#interactive-demo .demo-content:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.5);
-}
-
 #interactive-live-demo {
     position: relative;
     z-index: 2;
@@ -335,17 +325,40 @@ label:hover {
 #query-container {
     display: none;
     margin-top: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#query-form {
+    display: inline;
 }
 
 #query-form input[type="text"] {
-    font-size: 16px;
+    font-size: 14px;
     padding: 5px;
     border: none;
     border-radius: 5px;
-    margin-right: 10px;
+    color: #ff7f00;
+    background-color: #3a3a3a; /* Change background color to make the input box visible */
+    caret-color: #ff7f00;
+    outline: none;
+    width: 100%; /* Add width to make the input box fill the available space */
+}
+
+#upload-form {
+    margin-bottom: 30px;
+}
+
+.hidden {
+    display: none;
 }
 
 .terminal {
+    /* Add display: flex and flex-direction: column to properly position the input box */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: #1e1e1e;
     color: #ffffff;
     border-radius: 5px;
@@ -373,4 +386,51 @@ label:hover {
 
 .human {
     color: #ff7f00;
+}
+
+/* STEPS SECTION */
+#steps {
+    position: relative;
+    /* z-index: 2; */
+}
+
+#steps h2 {
+    color: #FF5722;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+#steps p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: center;
+}
+
+.step-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.step-list li {
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.step-number {
+    background-color: #FF5722;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-weight: bold;
 }

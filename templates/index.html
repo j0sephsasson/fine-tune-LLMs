@@ -23,7 +23,7 @@
             <ul class="navbar-menu">
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Features</a></li>
-                <li><a href="#">Pricing</a></li>
+                <!-- <li><a href="#">Pricing</a></li> -->
                 <li><a href="#">Contact Us</a></li>
             </ul>
             <button class="navbar-toggle" id="navbar-toggle">
@@ -67,7 +67,7 @@
             </div>
         </section>
 
-        <section class="section" id="industries">
+        <!-- <section class="section" id="industries">
             <h2>Industries We Serve</h2>
             <p>Our AI-powered digital assistants can revolutionize a wide range of industries.</p>
             <div class="card-container">
@@ -114,10 +114,23 @@
                     <p>Provide personalized financial advice and automate routine customer inquiries.</p>
                 </div>
             </div>
-        </section>
+        </section> -->
+
+        <section class="section" id="steps">
+            <h2>Steps</h2>
+            <p>Follow these simple steps to create and interact with your intelligent digital assistant:</p>
+            <div class="steps-container">
+                <ol class="step-list">
+                    <li><span class="step-number">1</span> Simply drag and drop your data</li>
+                    <li><span class="step-number">2</span> Instantly fine-tune your model</li>
+                    <li><span class="step-number">3</span> Deploy your model</li>
+                    <li><span class="step-number">4</span> Interact with your intelligent digital assistant</li>
+                </ol>
+            </div>
+        </section>        
         
           
-        <section class="section" id="pricing">
+        <!-- <section class="section" id="pricing">
             <h2>Pricing Plans</h2>
             <div class="card-container">
                 <div class="card pricing-card">
@@ -157,27 +170,25 @@
                     <button class="cta">Contact Us</button>
                 </div>
             </div>
-        </section> 
+        </section>  -->
         
         <section class="section" id="interactive-live-demo">
             <h2>Interactive Live Demo</h2>
             <p>Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
-            <form action="/upload" method="post" enctype="multipart/form-data">
+            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" id="file" class="inputfile" />
-                <label for="file">Choose a txt file</label>
+                <label for="file">Choose file</label>
                 <input type="submit" value="Upload" class="cta" />
             </form>
             <div id="query-container">
-                <h3>Ask your AI Assistant a question:</h3>
-                <form id="query-form">
-                    <input type="text" id="prompt" name="prompt" />
-                    <button type="submit" class="cta">Ask</button>
-                </form>
                 <div id="terminal" class="terminal">
                     <div class="messages"></div>
+                    <form id="query-form">
+                        <input type="text" id="prompt" name="prompt" />
+                    </form>
                 </div>
             </div>
-        </section>             
+        </section>                    
         
     </div>
     <script src="/static/js/particles-config.js"></script>
