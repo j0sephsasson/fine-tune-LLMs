@@ -12,4 +12,8 @@ def tune_llm(input_directory="sourcedata", output_file="indexdata/index.json"):
 
     llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.7, model_name='gpt-3.5-turbo'))
     output_index = GPTSimpleVectorIndex(loaded_content, llm_predictor=llm_predictor)
+
+    # Create the output directory if it doesn't exist
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
     output_index.save_to_disk(output_file)
