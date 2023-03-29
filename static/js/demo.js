@@ -11,6 +11,8 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
     });
     const result = await response.json();
     if (result.success) {
+        // store the output_key in local storage
+        localStorage.setItem('output_key', result.output_key);
         document.querySelector('#query-container').style.display = 'block';
         document.querySelector('#upload-form').classList.add('hidden');
         addMessage('ai', 'Hello, I am your intelligent digital assistant. What would you like to know?');
@@ -25,15 +27,21 @@ document.querySelector('#query-form').addEventListener('submit', async (event) =
     addMessage('human', prompt);
     document.querySelector('#prompt').value = '';
 
+    const outputKey = localStorage.getItem('output_key'); // get the output_key from local storage
+
     const response = await fetch('/query_llm', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `prompt=${encodeURIComponent(prompt)}`
+        body: `prompt=${encodeURIComponent(prompt)}&output_key=${encodeURIComponent(outputKey)}`
     });
     const result = await response.json();
-    addMessage('ai', result.result.response);
+    if (result.success) {
+        addMessage('ai', result.result);
+    } else {
+        alert('Error: ' + result.error);
+    }
 });
 
 function addMessage(role, text) {
