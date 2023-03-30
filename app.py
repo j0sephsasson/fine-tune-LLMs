@@ -1,10 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory, session
-from werkzeug.utils import secure_filename
-from llm.tune import tune_llm
-from llm.query import query_llm
 from io import BytesIO
 from dotenv import load_dotenv
-import os, boto3, json, requests
+import os, requests
 
 app = Flask(__name__)
 
