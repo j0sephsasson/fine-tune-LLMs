@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revolutionize Your Business with AI-Powered Digital Assistants - Company.AI</title>
+    <title>Revolutionize Your Business with AI-Powered Digital Assistants - Pathway.AI</title>
     <link rel="stylesheet" href="/static/css/main.css">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
 <body>
@@ -18,7 +18,7 @@
         <div class="navbar-container">
             <div class="navbar-logo">
                               
-                <a href="#">Company.AI</a>
+                <a href="#">Pathway.AI</a>
             </div>
             <ul class="navbar-menu">
                 <li><a href="#">Home</a></li>
@@ -36,7 +36,7 @@
     <div >
         <div class="content">
             <h1>Revolutionize Your Business with AI-Powered Digital Assistants</h1>
-            <p>Company.AI enables you to create custom digital assistants for your business, without any coding.</p>
+            <p>Pathway.AI enables you to create custom digital assistants for your business, without any coding.</p>
             <button class="cta">Get Started Now</button>
         </div>
 
@@ -85,18 +85,32 @@
             <h2>Interactive Live Demo</h2>
             <p>Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
             <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" id="file" class="inputfile" />
-                <label for="file">Choose file</label>
-                <input type="submit" value="Upload" class="cta" />
-            </form>
+                <div id="file-and-upload">
+                    <input type="file" name="file" id="file" class="inputfile" required/>
+                    <label for="file">Choose file</label>
+                    <input type="submit" value="Upload" class="cta" />
+                </div>
+                <div id="spinner" class="spinner hidden"></div>
+            </form>            
+            <div id="spinner" class="spinner hidden"></div>
             <div id="query-container">
                 <div id="terminal" class="terminal">
                     <div class="messages"></div>
                     <form id="query-form">
-                        <input type="text" id="prompt" name="prompt" />
+                        <div class="input-container">
+                            <div class="input-wrapper full-width-flex" style="display: flex;"> <!-- Add this wrapper div -->
+                                <input type="text" id="prompt" name="prompt" required />
+                                <button type="submit" id="submit-btn">
+                                    <i class="fas fa-check fa-1x"></i>
+                                </button>
+                            </div>
+                        </div>
                     </form>
+                    <div id="loading-container" style="display: none;">
+                        <div class="spinner-query"></div>
+                    </div>
                 </div>
-            </div>
+            </div>                                             
         </section>                    
         
     </div>

@@ -4,14 +4,22 @@ document.querySelector('#file').onchange = function() {
 
 document.querySelector('#upload-form').addEventListener('submit', async (event) => {
     event.preventDefault();
+
+    // Hide the buttons and show the spinner
+    document.querySelector('#file-and-upload').style.display = 'none';
+    document.querySelector('#spinner').style.display = 'block';
+
     const formData = new FormData(event.target);
     const response = await fetch('/upload', {
         method: 'POST',
         body: formData
     });
     const result = await response.json();
+
+    // Hide the spinner
+    document.querySelector('#spinner').style.display = 'none';
+
     if (result.success) {
-        // store the output_key in local storage
         localStorage.setItem('output_key', result.output_key);
         document.querySelector('#query-container').style.display = 'block';
         document.querySelector('#upload-form').classList.add('hidden');
@@ -21,13 +29,19 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
     }
 });
 
+
 document.querySelector('#query-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     const prompt = document.querySelector('#prompt').value;
     addMessage('human', prompt);
     document.querySelector('#prompt').value = '';
 
-    const outputKey = localStorage.getItem('output_key'); // get the output_key from local storage
+    const outputKey = localStorage.getItem('output_key');
+
+    const inputContainer = document.querySelector('.input-container');
+    const loadingContainer = document.querySelector('#loading-container');
+    inputContainer.style.display = 'none';
+    loadingContainer.style.display = 'flex';
 
     const response = await fetch('/query_llm', {
         method: 'POST',
@@ -37,6 +51,10 @@ document.querySelector('#query-form').addEventListener('submit', async (event) =
         body: `prompt=${encodeURIComponent(prompt)}&output_key=${encodeURIComponent(outputKey)}`
     });
     const result = await response.json();
+
+    inputContainer.style.display = 'block';
+    loadingContainer.style.display = 'none';
+
     if (result.success) {
         addMessage('ai', result.result);
     } else {

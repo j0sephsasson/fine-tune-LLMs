@@ -307,10 +307,12 @@ label:hover {
     border: none;
     border-radius: 5px;
     color: #ff7f00;
-    background-color: #3a3a3a; /* Change background color to make the input box visible */
+    background-color: #3a3a3a;
+    /* Change background color to make the input box visible */
     caret-color: #ff7f00;
     outline: none;
-    width: 100%; /* Add width to make the input box fill the available space */
+    width: 100%;
+    /* Add width to make the input box fill the available space */
 }
 
 #upload-form {
@@ -339,11 +341,23 @@ label:hover {
     margin-top: 30px;
 }
 
-.message {
-    margin-bottom: 10px;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-.ai, .human {
+.message {
+    margin-bottom: 10px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.ai,
+.human {
     font-weight: bold;
 }
 
@@ -400,4 +414,97 @@ label:hover {
     justify-content: center;
     margin-right: 15px;
     font-weight: bold;
+}
+
+/* SPINNER */
+.spinner {
+    border: 6px solid rgba(255, 255, 255, 0.1);
+    border-left-color: #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* INTERACTION CONTENT */
+.input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.full-width-flex {
+    display: flex;
+    width: 100%;
+}
+
+#prompt {
+    font-size: 14px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    color: #ff7f00;
+    background-color: #3a3a3a;
+    caret-color: #ff7f00;
+    outline: none;
+    width: calc(100% - 40px); /* Adjust the width to take up remaining space, minus submit button width */
+    margin-right: 10px;
+}
+
+.spinner-query {
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin-query 1s linear infinite;
+}
+
+@keyframes spin-query {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#loading-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#submit-btn i {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+}
+
+#submit-btn {
+    background-color: #FF5722;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 10px; /* Adjust padding to match #prompt padding */
+    height: 30px; /* Add height to match the #prompt height */
+    line-height: 20px; /* Adjust line-height to vertically center the icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#submit-btn:hover {
+    background-color: #FF8A65;
 }
