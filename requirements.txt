@@ -1,4 +1,4 @@
-certifi @ file:///Users/ec2-user/ci_py311/certifi_1678321191472/work/certifi
+certifi==2022.12.7
 charset-normalizer==3.1.0
 click==8.1.3
 Flask==2.2.3
