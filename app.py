@@ -7,7 +7,7 @@ from tempfile import mkdtemp
 from urllib.parse import urlparse
 import os, requests
 import redis
-import logging
+import logging, uuid
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -62,8 +62,12 @@ def upload():
                 response_json = response.json()
                 output_key = response_json["output_key"]
                 user_ip = get_client_ip()
-                current_app.config['SESSION_REDIS'].set(user_ip, output_key)  # Store the output_key in Redis using the user's IP as the key
+                session_id = str(uuid.uuid4())  # Generate a unique session ID
+                redis_key = f"{user_ip}-{session_id}"  # Combine the IP address and session ID
+                current_app.config['SESSION_REDIS'].set(redis_key, output_key)  # Store the output_key in Redis using the combined key
                 logging.debug(f"Stored output_key in Redis: {output_key}")
+                session['session_id'] = session_id  # Store the session ID in the user's session
+
                 return jsonify({'success': True, 'output_key': output_key})
             else:
                 return jsonify({'success': False, 'error': f'Response error: {response.status_code}'})
@@ -87,9 +91,13 @@ def query_interface():
 def interact_llm():
     llm_api_url = os.getenv('QUERY_URL')
 
-    # Get the output_key from Redis using the user's IP address
     user_ip = get_client_ip()  # Get the user's IP address
-    output_key = current_app.config['SESSION_REDIS'].get(user_ip)  # Retrieve the output_key from Redis using the user's IP as the key
+    session_id = session.get('session_id')  # Get the session ID from the user's session
+    if session_id is None:
+        return "No session found. Please upload a file first.", 400
+
+    redis_key = f"{user_ip}-{session_id}"  # Combine the IP address and session ID
+    output_key = current_app.config['SESSION_REDIS'].get(redis_key)  # Retrieve the output_key from Redis using the combined key
     output_key = output_key.decode('utf-8')
 
     logging.debug(f"Retrieved output_key from Redis: {output_key}")
