@@ -21,10 +21,10 @@
                 <a href="#">Pathway.AI</a>
             </div>
             <ul class="navbar-menu">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Features</a></li>
-                <!-- <li><a href="#">Pricing</a></li> -->
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#steps">Steps</a></li>
+                <li><a href="#interactive-live-demo">Live Demo</a></li>
             </ul>
             <button class="navbar-toggle" id="navbar-toggle">
                 <span class="icon-bar"></span>
@@ -34,13 +34,26 @@
         </div>
     </nav>
     <div >
-        <div class="content">
+        <div class="content" id="home">
             <h1>Revolutionize Your Business with AI-Powered Digital Assistants</h1>
             <p>Pathway.AI enables you to create custom digital assistants for your business, without any coding.</p>
-            <button class="cta">Get Started Now</button>
+            <button class="cta" onclick="scrollToSection()">Get Started Now</button>
+            <script>
+                function scrollToSection() {
+                  // Get the position of the section we want to scroll to
+                  var section = document.getElementById("interactive-live-demo");
+                  var position = section.getBoundingClientRect().top + window.pageYOffset;
+                
+                  // Scroll to the section using a smooth animation
+                  window.scrollTo({
+                    top: position,
+                    behavior: "smooth"
+                  });
+                }
+            </script>
         </div>
 
-        <section class="section" id="section-1">
+        <section class="section" id="features">
             <h2>Features</h2>
             <div class="card-container">
                 <div class="card">
