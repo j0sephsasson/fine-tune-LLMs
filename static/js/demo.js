@@ -20,13 +20,12 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
     document.querySelector('#spinner').style.display = 'none';
 
     if (result.success) {
-        localStorage.setItem('output_key', result.output_key);
         document.querySelector('#query-container').style.display = 'block';
         document.querySelector('#upload-form').classList.add('hidden');
         addMessage('ai', 'Hello, I am your intelligent digital assistant. What would you like to know?');
     } else {
         alert('File not uploaded.');
-    }
+    }    
 });
 
 
@@ -35,8 +34,6 @@ document.querySelector('#query-form').addEventListener('submit', async (event) =
     const prompt = document.querySelector('#prompt').value;
     addMessage('human', prompt);
     document.querySelector('#prompt').value = '';
-
-    const outputKey = localStorage.getItem('output_key');
 
     const inputContainer = document.querySelector('.input-container');
     const loadingContainer = document.querySelector('#loading-container');
@@ -48,7 +45,7 @@ document.querySelector('#query-form').addEventListener('submit', async (event) =
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `prompt=${encodeURIComponent(prompt)}&output_key=${encodeURIComponent(outputKey)}`
+        body: `prompt=${encodeURIComponent(prompt)}`
     });
     const result = await response.json();
 

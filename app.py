@@ -1,11 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory, session
+from flask_session import Session
 from io import BytesIO
 from dotenv import load_dotenv
 import os, requests
 
+load_dotenv()
+
 app = Flask(__name__)
 
-load_dotenv()
+# Configure session
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
+SESSION_TYPE = 'filesystem'
+app.config.from_object(__name__)
+Session(app)
 
 @app.route('/')
 def index():
@@ -31,6 +38,7 @@ def upload():
             if response.status_code == 200:
                 response_json = response.json()
                 output_key = response_json["output_key"]
+                session['output_key'] = output_key
                 return jsonify({'success': True, 'output_key': output_key})
             else:
                 return jsonify({'success': False, 'error': f'Response error: {response.status_code}'})
@@ -54,8 +62,8 @@ def query_interface():
 def interact_llm():
     llm_api_url = os.getenv('QUERY_URL')
 
-    # get the output key from the frontend
-    output_key = request.form.get('output_key')
+    # get the output key from the session
+    output_key = session.get('output_key')
 
     # get the user input from the form data
     user_input = request.form['prompt']
@@ -76,6 +84,13 @@ def interact_llm():
         return jsonify({'success': True, 'result': llm_result})
     else:
         return jsonify({'success': False, 'error': f'Response error: {response.status_code}'})
+    
+@app.after_request
+def add_header(response):
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response
 
 
 if __name__ == '__main__':
