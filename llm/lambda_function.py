@@ -11,10 +11,11 @@ def lambda_handler(event, context):
     s3 = boto3.client('s3')
     input_bucket = 'fine-tune-landing-page'
     output_bucket = 'fine-tune-landing-output'
-    input_directory = 'sourcedata'
-    output_directory = 'indexdata'
     input_key = f'{datetime.now().strftime("%Y%m%d%H%M%S%f")}.txt'
     output_key = f'{os.path.splitext(input_key)[0]}.json'
+    
+    input_directory = f'sourcedata/{input_key}'
+    output_directory = f'indexdata/{output_key}'
 
     # Decode and save the input file from the request body
     input_content = base64.b64decode(event['body']).decode('utf-8')
