@@ -1,0 +1,4 @@
+llama-index==0.4.40
+langchain==0.0.123
+boto3==1.26.100
+python-dotenv==0.21.0
