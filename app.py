@@ -1,9 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory, session, current_app
 from flask_session import Session
+from flask_limiter.util import get_remote_address
 from io import BytesIO
 from dotenv import load_dotenv
 from tempfile import mkdtemp
+from urllib.parse import urlparse
 import os, requests
+import redis
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 
@@ -12,14 +19,23 @@ app = Flask(__name__)
 # Configure session
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
-app.config['SESSION_TYPE'] = 'filesystem'  # Use the filesystem for storing session data
-app.config['SESSION_FILE_DIR'] = mkdtemp()  # Temporary directory for session files
-app.config['SESSION_PERMANENT'] = False     # Session data is not permanent
-app.config['SESSION_USE_SIGNER'] = True     # Sign the session cookie
-app.config['SESSION_FILE_THRESHOLD'] = 500  # Maximum number of session files before cleanup
+# Configure session options
+app.config['SESSION_TYPE'] = 'redis'  # Use Redis for storing session data
+
+url = urlparse(os.environ.get("REDIS_URL"))
+app.config['SESSION_REDIS'] = redis.Redis(host=url.hostname, port=url.port, password=url.password, ssl=True, ssl_cert_reqs=None)
+
+app.config['SESSION_PERMANENT'] = False  # Session data is not permanent
+app.config['SESSION_USE_SIGNER'] = True  # Sign the session cookie
 
 # Initialize the Flask-Session extension
 Session(app)
+
+def get_client_ip():
+    if 'X-Forwarded-For' in request.headers:
+        return request.headers.getlist("X-Forwarded-For")[0].rpartition(' ')[-1]
+    else:
+        return request.remote_addr
 
 @app.route('/')
 def index():
@@ -45,7 +61,9 @@ def upload():
             if response.status_code == 200:
                 response_json = response.json()
                 output_key = response_json["output_key"]
-                session['output_key'] = output_key
+                user_ip = get_client_ip()
+                current_app.config['SESSION_REDIS'].set(user_ip, output_key)  # Store the output_key in Redis using the user's IP as the key
+                logging.debug(f"Stored output_key in Redis: {output_key}")
                 return jsonify({'success': True, 'output_key': output_key})
             else:
                 return jsonify({'success': False, 'error': f'Response error: {response.status_code}'})
@@ -69,8 +87,12 @@ def query_interface():
 def interact_llm():
     llm_api_url = os.getenv('QUERY_URL')
 
-    # get the output key from the session
-    output_key = session.get('output_key')
+    # Get the output_key from Redis using the user's IP address
+    user_ip = get_client_ip()  # Get the user's IP address
+    output_key = current_app.config['SESSION_REDIS'].get(user_ip)  # Retrieve the output_key from Redis using the user's IP as the key
+    output_key = output_key.decode('utf-8')
+
+    logging.debug(f"Retrieved output_key from Redis: {output_key}")
 
     # get the user input from the form data
     user_input = request.form['prompt']
