@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from flask_session import Session
 from io import BytesIO
 from dotenv import load_dotenv
+from tempfile import mkdtemp
 import os, requests
 
 load_dotenv()
@@ -10,8 +11,14 @@ app = Flask(__name__)
 
 # Configure session
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
-SESSION_TYPE = 'filesystem'
-app.config.from_object(__name__)
+
+app.config['SESSION_TYPE'] = 'filesystem'  # Use the filesystem for storing session data
+app.config['SESSION_FILE_DIR'] = mkdtemp()  # Temporary directory for session files
+app.config['SESSION_PERMANENT'] = False     # Session data is not permanent
+app.config['SESSION_USE_SIGNER'] = True     # Sign the session cookie
+app.config['SESSION_FILE_THRESHOLD'] = 500  # Maximum number of session files before cleanup
+
+# Initialize the Flask-Session extension
 Session(app)
 
 @app.route('/')
