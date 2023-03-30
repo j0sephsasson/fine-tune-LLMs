@@ -1,0 +1,12 @@
+certifi @ file:///Users/ec2-user/ci_py311/certifi_1678321191472/work/certifi
+charset-normalizer==3.1.0
+click==8.1.3
+Flask==2.2.3
+idna==3.4
+itsdangerous==2.1.2
+Jinja2==3.1.2
+MarkupSafe==2.1.2
+python-dotenv==1.0.0
+requests==2.28.2
+urllib3==1.26.15
+Werkzeug==2.2.3
