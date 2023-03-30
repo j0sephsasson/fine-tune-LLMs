@@ -15,6 +15,7 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
         body: formData
     });
     const result = await response.json();
+    console.log("Received output_key from /upload:", result.output_key); // Add this line
 
     // Hide the spinner
     document.querySelector('#spinner').style.display = 'none';
