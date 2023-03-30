@@ -23,7 +23,7 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY')
 app.config['SESSION_TYPE'] = 'redis'  # Use Redis for storing session data
 
 url = urlparse(os.environ.get("REDIS_URL"))
-app.config['SESSION_REDIS'] = redis.Redis(host=url.hostname, port=url.port, password=url.password, ssl=True, ssl_cert_reqs=None)
+app.config['SESSION_REDIS'] = redis.Redis(host=url.hostname, port=url.port, password=url.password, ssl=True, ssl_cert_reqs=None) # connect to redis - via Heroku docs
 
 app.config['SESSION_PERMANENT'] = False  # Session data is not permanent
 app.config['SESSION_USE_SIGNER'] = True  # Sign the session cookie
@@ -32,6 +32,12 @@ app.config['SESSION_USE_SIGNER'] = True  # Sign the session cookie
 Session(app)
 
 def get_client_ip():
+    """
+    Get client's IP address from request headers or remote address.
+
+    Returns:
+        str: Client's IP address.
+    """
     if 'X-Forwarded-For' in request.headers:
         return request.headers.getlist("X-Forwarded-For")[0].rpartition(' ')[-1]
     else:
@@ -39,22 +45,29 @@ def get_client_ip():
 
 @app.route('/')
 def index():
+    """
+    Render the main index page.
+
+    Returns:
+        str: Rendered index.html template.
+    """
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    """
+    Handle file upload and communicate with external API.
+
+    Returns:
+        Response: JSON response containing success status and either output_key or error message.
+    """
     if request.method == 'POST':
         file = request.files['file']
-
-        # create an in-memory file-like object from the file data
-        file_obj = BytesIO(file.read())
+        file_obj = BytesIO(file.read())  # create an in-memory file-like object from the file data
 
         if file:
             api_url = os.getenv('TUNE_URL')
-            # Add the authentication token as a header
-            headers = {
-                "Authorization": os.getenv('AUTH_HEADER')
-            }
+            headers = {"Authorization": os.getenv('AUTH_HEADER')}  # Add the authentication token as a header
 
             response = requests.post(api_url, headers=headers, files={"input_file": file_obj})
 
@@ -76,19 +89,46 @@ def upload():
 
 @app.route('/js/<path:path>')
 def send_js(path):
+    """
+    Serve JavaScript files.
+
+    Args:
+        path (str): Path to the JavaScript file.
+
+    Returns:
+        Response: Served JavaScript file.
+    """
     return send_from_directory('js', path)
 
 def update_query_interface():
+    """
+    Read and return the contents of the 'query.html' file.
+
+    Returns:
+        str: Contents of 'query.html' file.
+    """
     with open('query.html', 'r') as f:
         query_html = f.read()
     return query_html
 
 @app.route('/query')
 def query_interface():
+    """
+    Render the query interface page.
+
+    Returns:
+        str: Rendered query.html content.
+    """
     return update_query_interface()
 
 @app.route('/query_llm', methods=['POST'])
 def interact_llm():
+    """
+    Handle interaction with the language model API.
+
+    Returns:
+        Response: JSON response containing success status and either the result or error message.
+    """
     llm_api_url = os.getenv('QUERY_URL')
 
     user_ip = get_client_ip()  # Get the user's IP address
@@ -102,17 +142,14 @@ def interact_llm():
 
     logging.debug(f"Retrieved output_key from Redis: {output_key}")
 
-    # get the user input from the form data
-    user_input = request.form['prompt']
+    user_input = request.form['prompt']  # get the user input from the form data
 
-    # create the payload to send to the API
     payload = {
         "output_key": output_key,
         "user_input": user_input
-    }
+    }  # create the payload to send to the API
 
-    # make the request to the LLM API
-    response = requests.post(llm_api_url, json=payload)
+    response = requests.post(llm_api_url, json=payload)  # make the request to the LLM API
 
     if response.status_code == 200:
         response_json = response.json()
@@ -121,14 +158,22 @@ def interact_llm():
         return jsonify({'success': True, 'result': llm_result})
     else:
         return jsonify({'success': False, 'error': f'Response error: {response.status_code}'})
-    
+
 @app.after_request
 def add_header(response):
+    """
+    Add headers to disable caching.
+
+    Args:
+        response (Response): The response object.
+
+    Returns:
+        Response: The response object with additional headers.
+    """
     response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '-1'
     return response
-
 
 if __name__ == '__main__':
     app.run(debug=True)
