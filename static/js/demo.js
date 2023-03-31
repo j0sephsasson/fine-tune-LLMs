@@ -5,6 +5,16 @@ document.querySelector('#file').onchange = function() {
 document.querySelector('#upload-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    const fileInput = document.querySelector('#file');
+    const file = fileInput.files[0];
+    
+    // Check if the file is a .txt file
+    if (file.type !== 'text/plain') {
+        alert('Only .txt files are allowed.');
+        location.reload();
+        return;
+    }
+
     // Hide the buttons and show the spinner
     document.querySelector('#file-and-upload').style.display = 'none';
     document.querySelector('#spinner').style.display = 'block';
@@ -15,7 +25,6 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
         body: formData
     });
     const result = await response.json();
-    console.log("Received output_key from /upload:", result.output_key); // Add this line
 
     // Hide the spinner
     document.querySelector('#spinner').style.display = 'none';
@@ -26,7 +35,7 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
         addMessage('ai', 'Hello, I am your intelligent digital assistant. What would you like to know?');
     } else {
         alert('File not uploaded.');
-    }    
+    }
 });
 
 
