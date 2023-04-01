@@ -127,7 +127,11 @@
         <section class="section" id="interactive-live-demo">
             <h2>Interactive Live Demo</h2>
             <p>Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
-            <p>Only accepts '.txt' files right now.</p>
+            <ul>
+                <li>Only accepts '.txt' files right now.</li>
+                <li>Please do not upload large files. This will timeout the server, currently working to fix this.</li>
+            </ul>
+              
             <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
                 <div id="file-and-upload">
                     <input type="file" name="file" id="file" class="inputfile" required/>
