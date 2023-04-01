@@ -2,6 +2,30 @@ document.querySelector('#file').onchange = function() {
     document.querySelector('label[for="file"]').textContent = this.files[0].name;
 };
 
+async function checkJobStatus(jobId) {
+    const statusResponse = await fetch(`/job_status/${jobId}`);
+    const statusResult = await statusResponse.json();
+
+    if (statusResult.status === 'finished') {
+        // Hide the spinner
+        document.querySelector('#spinner').style.display = 'none';
+        
+        const outputKey = statusResult.result;
+
+        document.querySelector('#query-container').style.display = 'block';
+        document.querySelector('#upload-form').classList.add('hidden');
+        addMessage('ai', 'Hello, I am your intelligent digital assistant. What would you like to know?');
+
+    } else if (statusResult.status === 'failed') {
+        // Hide the spinner and show the buttons
+        document.querySelector('#spinner').classList.add('hidden');
+        document.querySelector('#file-and-upload').classList.remove('hidden');
+        alert('File processing failed.');
+    } else {
+        setTimeout(() => checkJobStatus(jobId), 1000);  // Check again after 1 second
+    }
+}
+
 document.querySelector('#upload-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -26,14 +50,13 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
     });
     const result = await response.json();
 
-    // Hide the spinner
-    document.querySelector('#spinner').style.display = 'none';
-
     if (result.success) {
-        document.querySelector('#query-container').style.display = 'block';
-        document.querySelector('#upload-form').classList.add('hidden');
-        addMessage('ai', 'Hello, I am your intelligent digital assistant. What would you like to know?');
+        // Start checking job status
+        checkJobStatus(result.job_id);
     } else {
+        // Hide the spinner and show the buttons
+        document.querySelector('#spinner').classList.add('hidden');
+        document.querySelector('#file-and-upload').classList.remove('hidden');
         alert('File not uploaded.');
     }
 });

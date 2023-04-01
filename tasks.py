@@ -1,9 +1,13 @@
-import requests
 import os
-from dotenv import load_dotenv
-from flask import current_app
-from app import app
+import requests
+import logging
 from io import BytesIO
+from context import app
+from redis import Redis
+from dotenv import load_dotenv
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 
@@ -20,7 +24,10 @@ def process_file(file_contents, redis_key):
         output_key = response_json["output_key"]
 
         with app.app_context():
-            current_app.config['SESSION_REDIS'].set(redis_key, output_key)  # Store the output_key in Redis using the combined key
+            redis_conn = Redis.from_url(app.config['SESSION_REDIS'])
+            redis_conn.set(redis_key, output_key)  # Store the output_key in Redis using the combined key
+
+            logging.debug(f"Stored output_key in Redis: {output_key}")
 
         return output_key
     else:

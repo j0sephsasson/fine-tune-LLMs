@@ -8,28 +8,23 @@ from urllib.parse import urlparse
 import os, requests
 import redis
 import logging, uuid
+from rq import Queue
+from rq.job import NoSuchJobError
+from worker import r
+from rq.job import Job
+from tasks import process_file
+from context import app
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 
-app = Flask(__name__)
-
-# Configure session
-app.secret_key = os.getenv('FLASK_SECRET_KEY')
-
-# Configure session options
-app.config['SESSION_TYPE'] = 'redis'  # Use Redis for storing session data
-
-url = urlparse(os.environ.get("REDIS_URL"))
-app.config['SESSION_REDIS'] = redis.Redis(host=url.hostname, port=url.port, password=url.password, ssl=True, ssl_cert_reqs=None) # connect to redis - via Heroku docs
-
-app.config['SESSION_PERMANENT'] = False  # Session data is not permanent
-app.config['SESSION_USE_SIGNER'] = True  # Sign the session cookie
-
 # Initialize the Flask-Session extension
 Session(app)
+
+# Initialize RQ
+q = Queue(connection=r)
 
 def get_client_ip():
     """
@@ -55,35 +50,22 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    """
-    Handle file upload and communicate with external API.
-
-    Returns:
-        Response: JSON response containing success status and either output_key or error message.
-    """
     if request.method == 'POST':
         file = request.files['file']
-        file_obj = BytesIO(file.read())  # create an in-memory file-like object from the file data
+        file_contents = file.read()
 
         if file:
-            api_url = os.getenv('TUNE_URL')
-            headers = {"Authorization": os.getenv('AUTH_HEADER')}  # Add the authentication token as a header
+            user_ip = get_client_ip()
+            session_id = str(uuid.uuid4())
 
-            response = requests.post(api_url, headers=headers, files={"input_file": file_obj})
+            redis_key = f"{user_ip}-{session_id}"  # Combine the IP address and session ID
 
-            if response.status_code == 200:
-                response_json = response.json()
-                output_key = response_json["output_key"]
-                user_ip = get_client_ip()
-                session_id = str(uuid.uuid4())  # Generate a unique session ID
-                redis_key = f"{user_ip}-{session_id}"  # Combine the IP address and session ID
-                current_app.config['SESSION_REDIS'].set(redis_key, output_key)  # Store the output_key in Redis using the combined key
-                logging.debug(f"Stored output_key in Redis: {output_key}")
-                session['session_id'] = session_id  # Store the session ID in the user's session
-
-                return jsonify({'success': True, 'output_key': output_key})
-            else:
-                return jsonify({'success': False, 'error': f'Response error: {response.status_code}'})
+            # Enqueue the process_file task
+            job = q.enqueue(process_file, file_contents, redis_key)
+            session['session_id'] = session_id
+            return jsonify({'success': True, 'job_id': job.id})
+        else:
+            return jsonify({'success': False, 'error': 'No file provided'})
 
     return jsonify({'success': False, 'error': 'Invalid request method'})
 
@@ -174,6 +156,21 @@ def add_header(response):
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '-1'
     return response
+
+@app.route('/job_status/<job_id>', methods=['GET'])
+def job_status(job_id):
+    try:
+        job = q.fetch_job(job_id)
+    except NoSuchJobError:
+        return jsonify({"status": "not_found"})
+
+    if job.is_failed:
+        return jsonify({"status": "failed"})
+    elif job.is_finished:
+        return jsonify({"status": "finished"})
+    else:
+        return jsonify({"status": "pending"})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
