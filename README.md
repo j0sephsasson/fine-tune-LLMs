@@ -11,9 +11,11 @@ Pathway.AI is an application that enables companies or individuals to quickly an
 
 ## Getting Started
 
-1. Clone the repository git clone https://github.com/j0sephsasson/fine-tune-LLMs.git
-2. Install the dependencies pip install -r requirements.txt
-3. Start the backend server python app.py
+Currently working on making it easier to set up and run the application locally. Please stay tuned for updates.
+
+In the meantime, if you are interested in using the application, please be aware that the current version relies heavily on AWS Lambda and S3, and that there are several security considerations that need to be taken into account when setting up and running the application.
+
+I recommend that you use the application in a production environment only after thoroughly understanding the security implications and taking appropriate measures to secure your AWS resources and data.
 
 ## Usage
 
