@@ -24,8 +24,7 @@ def process_file(file_contents, redis_key):
         output_key = response_json["output_key"]
 
         with app.app_context():
-            redis_conn = Redis.from_url(app.config['SESSION_REDIS'])
-            redis_conn.set(redis_key, output_key)  # Store the output_key in Redis using the combined key
+            app.config['SESSION_REDIS'].set(redis_key, output_key)  # Store the output_key in Redis using the combined key
 
             logging.debug(f"Stored output_key in Redis: {output_key}")
 
