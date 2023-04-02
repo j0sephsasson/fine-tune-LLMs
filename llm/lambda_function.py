@@ -20,14 +20,14 @@ def lambda_handler(event, context):
     # Decode and save the input file from the request body
     input_content = base64.b64decode(event['body']).decode('utf-8')
     os.makedirs(f'/tmp/{input_directory}', exist_ok=True)
-    with open(f'/tmp/{input_directory}/{input_key}', 'w') as f:
+    with open(f'/tmp/{input_directory}', 'w') as f:
         f.write(input_content)
 
     # Call the tune_llm function
-    tune_llm(f'/tmp/{input_directory}', f'/tmp/{output_directory}/{output_key}')
+    tune_llm(f'/tmp/{input_directory}', f'/tmp/{output_directory}')
 
     # Upload the output file to S3
-    s3.upload_file(f'/tmp/{output_directory}/{output_key}', output_bucket, output_key)
+    s3.upload_file(f'/tmp/{output_directory}', output_bucket, output_key)
 
     # Return the path to the output file and the output_key in the response body
     response_body = {
