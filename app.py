@@ -50,6 +50,15 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    """
+    Handle file upload and initiate processing.
+
+    Accepts a file as a form-data input, enqueues a process_file task for the uploaded file, and associates
+    the file with a session. Returns the job ID for the enqueued task and a success status.
+
+    Returns:
+        Response: JSON response containing success status and either the job ID or an error message.
+    """
     if request.method == 'POST':
         file = request.files['file']
         file_contents = file.read()
@@ -120,6 +129,10 @@ def interact_llm():
 
     redis_key = f"{user_ip}-{session_id}"  # Combine the IP address and session ID
     output_key = current_app.config['SESSION_REDIS'].get(redis_key)  # Retrieve the output_key from Redis using the combined key
+
+    if output_key is None:
+        return "No output key found. Please upload a file first.", 400
+
     output_key = output_key.decode('utf-8')
 
     logging.debug(f"Retrieved output_key from Redis: {output_key}")
