@@ -247,4 +247,4 @@ def submit_feedback():
     return jsonify({'success': False, 'error': 'Invalid request method'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
