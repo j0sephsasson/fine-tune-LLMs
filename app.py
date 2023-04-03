@@ -231,7 +231,7 @@ def submit_feedback():
             db.session.commit()
 
             msg = Message("New Feedback",
-                          recipients=[os.getenv('MAIL_USERNAME')])
+                          recipients=[os.getenv('MAIL_USERNAME_PERSONAL')])
             msg.body = f"From: {email}\n\nFeedback: {feedback}"
             mail.send(msg)
 
