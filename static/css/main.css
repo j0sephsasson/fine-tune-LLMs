@@ -480,7 +480,8 @@ label:hover {
     background-color: #3a3a3a;
     caret-color: #ff7f00;
     outline: none;
-    width: calc(100% - 40px); /* Adjust the width to take up remaining space, minus submit button width */
+    width: calc(100% - 40px);
+    /* Adjust the width to take up remaining space, minus submit button width */
     margin-right: 10px;
 }
 
@@ -523,9 +524,12 @@ label:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
-    padding: 5px 10px; /* Adjust padding to match #prompt padding */
-    height: 30px; /* Add height to match the #prompt height */
-    line-height: 20px; /* Adjust line-height to vertically center the icon */
+    padding: 5px 10px;
+    /* Adjust padding to match #prompt padding */
+    height: 30px;
+    /* Add height to match the #prompt height */
+    line-height: 20px;
+    /* Adjust line-height to vertically center the icon */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -533,4 +537,54 @@ label:hover {
 
 #submit-btn:hover {
     background-color: #FF8A65;
+}
+
+/* FEEDBACK AND SUBSCRIBE */
+.email-subscribe form,
+.feedback form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.email-subscribe input,
+.feedback input,
+.feedback textarea {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 16px;
+  resize: none;
+}
+
+.email-subscribe input::placeholder,
+.feedback input::placeholder,
+.feedback textarea::placeholder {
+  color: #ffffff;
+}
+
+.email-subscribe button,
+.feedback button {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background-color: #FF8A65;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.email-subscribe button:hover,
+.feedback button:hover {
+  background-color: #FF5722;
+}
+
+@media screen and (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+  }
 }

@@ -7,22 +7,26 @@
     <title>Pathway.AI | AI-Powered Digital Assistants</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Pathway.AI is an advanced text analysis tool that enables users to upload text files and get insights using a cutting-edge AI-powered language model. Try it out for free today!">
-    <meta name="keywords" content="text analysis, AI, language model, file upload, artificial intelligence, natural language processing, NLP, machine learning">
+    <meta name="description"
+        content="Pathway.AI is an advanced text analysis tool that enables users to upload text files and get insights using a cutting-edge AI-powered language model. Try it out for free today!">
+    <meta name="keywords"
+        content="text analysis, AI, language model, file upload, artificial intelligence, natural language processing, NLP, machine learning">
     <meta name="author" content="Pathway.AI">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pathway-ai.herokuapp.com">
     <meta property="og:title" content="Pathway.AI - A Powerful Text Analysis Tool">
-    <meta property="og:description" content="Pathway.AI is an advanced text analysis tool that enables users to upload text files and get insights using a cutting-edge AI-powered language model. Try it out for free today!">
+    <meta property="og:description"
+        content="Pathway.AI is an advanced text analysis tool that enables users to upload text files and get insights using a cutting-edge AI-powered language model. Try it out for free today!">
     <meta property="og:image" content="https://pathway-ai.herokuapp.com/static/img/ai-2.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://pathway-ai.herokuapp.com">
     <meta property="twitter:title" content="Pathway.AI - A Powerful Text Analysis Tool">
-    <meta property="twitter:description" content="Pathway.AI is an advanced text analysis tool that enables users to upload text files and get insights using a cutting-edge AI-powered language model. Try it out for free today!">
+    <meta property="twitter:description"
+        content="Pathway.AI is an advanced text analysis tool that enables users to upload text files and get insights using a cutting-edge AI-powered language model. Try it out for free today!">
     <meta property="twitter:image" content="https://pathway-ai.herokuapp.com/static/img/ai-2.png">
 
     <!-- MAIN CSS -->
@@ -47,7 +51,7 @@
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-logo">
-                              
+
                 <a href="#">Pathway.AI</a>
             </div>
             <ul class="navbar-menu">
@@ -63,22 +67,22 @@
             </button>
         </div>
     </nav>
-    <div >
+    <div>
         <div class="content" id="home">
             <h1>Revolutionize Your Business with AI-Powered Digital Assistants</h1>
             <p>Pathway.AI enables you to create custom digital assistants for your business, without any coding.</p>
             <button class="cta" onclick="scrollToSection()">Get Started Now</button>
             <script>
                 function scrollToSection() {
-                  // Get the position of the section we want to scroll to
-                  var section = document.getElementById("interactive-live-demo");
-                  var position = section.getBoundingClientRect().top + window.pageYOffset;
-                
-                  // Scroll to the section using a smooth animation
-                  window.scrollTo({
-                    top: position,
-                    behavior: "smooth"
-                  });
+                    // Get the position of the section we want to scroll to
+                    var section = document.getElementById("interactive-live-demo");
+                    var position = section.getBoundingClientRect().top + window.pageYOffset;
+
+                    // Scroll to the section using a smooth animation
+                    window.scrollTo({
+                        top: position,
+                        behavior: "smooth"
+                    });
                 }
             </script>
         </div>
@@ -91,21 +95,24 @@
                         <i class="fas fa-brain"></i>
                     </div>
                     <h3>AI-Powered</h3>
-                    <p>Our AI-powered digital assistants will revolutionize your business operations and customer interactions.</p>
+                    <p>Our AI-powered digital assistants will revolutionize your business operations and customer
+                        interactions.</p>
                 </div>
                 <div class="card">
                     <div class="card-icon">
                         <i class="fas fa-cogs"></i>
                     </div>
                     <h3>Customizable</h3>
-                    <p>Pathway.AI enables you to create custom digital assistants tailored to your business needs, without any coding.</p>
+                    <p>Pathway.AI enables you to create custom digital assistants tailored to your business needs,
+                        without any coding.</p>
                 </div>
                 <div class="card">
                     <div class="card-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <h3>User-Friendly</h3>
-                    <p>Our digital assistants are designed to provide a seamless and user-friendly experience for your customers.</p>
+                    <p>Our digital assistants are designed to provide a seamless and user-friendly experience for your
+                        customers.</p>
                 </div>
             </div>
         </section>
@@ -121,9 +128,39 @@
                     <li><span class="step-number">4</span> Interact with your intelligent digital assistant</li>
                 </ol>
             </div>
-        </section>        
-        
-        
+        </section>
+
+        <section class="section">
+            <div class="section-container">
+                <h2>Email Subscribe & Feedback</h2>
+                <div class="card-container">
+                    <div class="card email-subscribe">
+                        <i class="card-icon fas fa-envelope"></i>
+                        <h3>Email Subscribe</h3>
+                        <!-- Email Subscribe Form -->
+                        <form action="{{ url_for('subscribe') }}" method="post">
+                            <input type="email" name="email" placeholder="Your email" required>
+                            <button type="submit">Subscribe</button>
+                            <div class="spinner" id="subscription_spinner" style="display:none;"></div>
+                            <div id="subscription_message" style="display:none;"></div>
+                        </form>
+                    </div>
+                    <div class="card feedback">
+                        <i class="card-icon fas fa-comment"></i>
+                        <h3>Feedback</h3>
+                        <form action="{{ url_for('submit_feedback') }}" method="post">
+                            <input type="email" name="email" placeholder="Your email" required>
+                            <textarea name="feedback" placeholder="Your feedback" required></textarea>
+                            <button type="submit">Submit</button>
+                            <div class="spinner" id="feedback_spinner" style="display:none;"></div>
+                            <div id="feedback_message" style="display:none;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <section class="section" id="interactive-live-demo">
             <h2>Interactive Live Demo</h2>
             <p>Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
@@ -134,19 +171,20 @@
             <!-- <p>Please do not upload large files. This will timeout the server, currently working to fix this.</p> -->
             <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
                 <div id="file-and-upload">
-                    <input type="file" name="file" id="file" class="inputfile" required/>
+                    <input type="file" name="file" id="file" class="inputfile" required />
                     <label for="file">Choose file</label>
                     <input type="submit" value="Upload" class="cta" />
                 </div>
                 <div id="spinner" class="spinner hidden"></div>
-            </form>            
+            </form>
             <div id="spinner" class="spinner hidden"></div>
             <div id="query-container">
                 <div id="terminal" class="terminal">
                     <div class="messages"></div>
                     <form id="query-form">
                         <div class="input-container">
-                            <div class="input-wrapper full-width-flex" style="display: flex;"> <!-- Add this wrapper div -->
+                            <div class="input-wrapper full-width-flex" style="display: flex;">
+                                <!-- Add this wrapper div -->
                                 <input type="text" id="prompt" name="prompt" required />
                                 <button type="submit" id="submit-btn">
                                     <i class="fas fa-check fa-1x"></i>
@@ -158,13 +196,15 @@
                         <div class="spinner-query"></div>
                     </div>
                 </div>
-            </div>                                             
-        </section>                    
-        
+            </div>
+        </section>
+
+
     </div>
     <script src="/static/js/particles-config.js"></script>
     <script src="/static/js/nav.js"></script>
     <script src="/static/js/demo.js"></script>
+    <script src="/static/js/main.js"></script>
 </body>
 
 </html>

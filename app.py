@@ -14,10 +14,14 @@ from worker import r
 from rq.job import Job
 from tasks import process_file
 from context import app
+from flask_mail import Message
+from db_models import Email, Feedback
+from extensions import db, mail
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
+# Initialize env vars
 load_dotenv()
 
 # Initialize the Flask-Session extension
@@ -25,6 +29,10 @@ Session(app)
 
 # Initialize RQ
 q = Queue(connection=r)
+
+# Initialize mail / DB
+mail.init_app(app)
+db.init_app(app)
 
 def get_client_ip():
     """
@@ -183,7 +191,48 @@ def job_status(job_id):
         return jsonify({"status": "finished"})
     else:
         return jsonify({"status": "pending"})
+    
+@app.route('/subscribe', methods=['POST'])
+def subscribe():
+    if request.method == 'POST':
+        email = request.form['email']
 
+        if email:
+            new_email = Email(email=email)
+            db.session.add(new_email)
+            db.session.commit()
+            return jsonify({'success': True, 'message': 'You have successfully subscribed'})
+        else:
+            return jsonify({'success': False, 'error': 'Please enter your email'})
+
+    return jsonify({'success': False, 'error': 'Invalid request method'})
+
+@app.route('/submit_feedback', methods=['POST'])
+def submit_feedback():
+    if request.method == 'POST':
+        email = request.form['email']
+        feedback = request.form['feedback']
+
+        if email and feedback:
+            new_feedback = Feedback(email=email, feedback=feedback)
+            db.session.add(new_feedback)
+            db.session.commit()
+
+            msg = Message("New Feedback",
+                          recipients=[os.getenv('MAIL_USERNAME')])
+            msg.body = f"From: {email}\n\nFeedback: {feedback}"
+            mail.send(msg)
+
+            msg = Message("Thank You!",
+                          recipients=[str(email)])
+            msg.body = "Thank you for providing your valuable feedback!"
+            mail.send(msg)
+
+            return jsonify({'success': True, 'message': 'Thank you for your feedback'})
+        else:
+            return jsonify({'success': False, 'error': 'Please fill out all fields'})
+
+    return jsonify({'success': False, 'error': 'Invalid request method'})
 
 if __name__ == '__main__':
     app.run(debug=True)

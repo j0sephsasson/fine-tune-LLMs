@@ -1,6 +1,7 @@
 amqp==5.1.1
 async-timeout==4.0.2
 billiard==3.6.4.0
+blinker==1.6
 boto3==1.26.102
 botocore==1.29.102
 cachelib==0.10.2
@@ -14,7 +15,10 @@ click-repl==0.2.0
 Deprecated==1.2.13
 Flask==2.2.3
 Flask-Limiter==3.3.0
+Flask-Mail==0.9.1
 Flask-Session==0.4.0
+Flask-SQLAlchemy==3.0.3
+greenlet==2.0.2
 gunicorn==20.1.0
 idna==3.4
 importlib-resources==5.12.0
@@ -39,6 +43,7 @@ rich==13.3.3
 rq==1.13.0
 s3transfer==0.6.0
 six==1.16.0
+SQLAlchemy==2.0.8
 typing_extensions==4.5.0
 urllib3==1.26.15
 vine==5.0.0

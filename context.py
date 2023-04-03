@@ -19,6 +19,17 @@ def create_app():
 
     app.config['SESSION_PERMANENT'] = False  # Session data is not permanent
     app.config['SESSION_USE_SIGNER'] = True  # Sign the session cookie
+
+    # Configure DB / Mail
+    app.config['MAIL_SERVER'] = 'mail.privateemail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+    app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     
     return app
 
