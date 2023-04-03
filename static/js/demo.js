@@ -10,6 +10,9 @@ async function checkJobStatus(jobId) {
         // Hide the spinner
         document.querySelector('#spinner').style.display = 'none';
         
+        // Hide the interactive-demo-card
+        document.querySelector('#interactive-demo-card').style.display = 'none';
+
         const outputKey = statusResult.result;
 
         document.querySelector('#query-container').style.display = 'block';

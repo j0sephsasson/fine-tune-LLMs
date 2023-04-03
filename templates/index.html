@@ -124,8 +124,8 @@
                 <ol class="step-list">
                     <li><span class="step-number">1</span> Simply drag and drop your data</li>
                     <li><span class="step-number">2</span> Instantly fine-tune your model</li>
-                    <li><span class="step-number">3</span> Deploy your model</li>
-                    <li><span class="step-number">4</span> Interact with your intelligent digital assistant</li>
+                    <!-- <li><span class="step-number">3</span> Deploy your model</li> -->
+                    <li><span class="step-number">3</span> Interact with your intelligent digital assistant</li>
                 </ol>
             </div>
         </section>
@@ -166,19 +166,22 @@
             <h2>Interactive Live Demo</h2>
             <p>Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
             <br>
-            <h3>Usage Notes:</h3>
-            <p>Only accepts '.txt' files right now.</p>
-            <p>Session data is stored for 500 seconds, after that, you will need to re-upload.</p>
-            <!-- <p>Please do not upload large files. This will timeout the server, currently working to fix this.</p> -->
-            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-                <div id="file-and-upload">
-                    <input type="file" name="file" id="file" class="inputfile" required />
-                    <label for="file">Choose file</label>
-                    <input type="submit" value="Upload" class="cta" />
+            <div class="card-container" id="interactive-demo-card">
+                <div class="card">
+                    <h3>Usage Notes:</h3>
+                    <p>Only accepts '.txt' files right now.</p>
+                    <p>Session data is stored for 500 seconds, after that, you will need to re-upload.</p>
+                    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                        <div id="file-and-upload">
+                            <input type="file" name="file" id="file" class="inputfile" required />
+                            <label for="file">Choose file</label>
+                            <input type="submit" value="Upload" class="cta" />
+                        </div>
+                        <div id="spinner" class="spinner hidden"></div>
+                    </form>
+                    <div id="spinner" class="spinner hidden"></div>
                 </div>
-                <div id="spinner" class="spinner hidden"></div>
-            </form>
-            <div id="spinner" class="spinner hidden"></div>
+            </div>
             <div id="query-container">
                 <div id="terminal" class="terminal">
                     <div class="messages"></div>
