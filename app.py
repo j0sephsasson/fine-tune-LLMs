@@ -17,6 +17,7 @@ from context import app
 from flask_mail import Message
 from db_models import Email, Feedback
 from extensions import db, mail
+from commands import initdb_command
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)

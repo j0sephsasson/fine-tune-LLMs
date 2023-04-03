@@ -3,7 +3,7 @@ from extensions import db
 import click
 from flask.cli import with_appcontext
 
-@click.command("initdb")
+@click.command(name="initdb")
 @with_appcontext
 def initdb_command():
     """Initialize the database."""
