@@ -1,5 +1,5 @@
 from context import app
-from db_models import db
+from extensions import db
 import click
 from flask.cli import with_appcontext
 
@@ -11,3 +11,8 @@ def initdb_command():
     with app.app_context():
         db.create_all()
     click.echo("Initialized the database.")
+
+app.cli.add_command(initdb_command)
+
+if __name__ == '__main__':
+    app.cli()
