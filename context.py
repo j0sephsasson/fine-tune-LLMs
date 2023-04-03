@@ -2,11 +2,14 @@ from flask import Flask
 import os, redis 
 from dotenv import load_dotenv
 from urllib.parse import urlparse
+from middleware import RedirectToCustomDomainMiddleware
 
 load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+
+    app.wsgi_app = RedirectToCustomDomainMiddleware(app.wsgi_app, 'www.pathway-ai.io')
     
     # Configure session
     app.secret_key = os.getenv('FLASK_SECRET_KEY')
@@ -29,7 +32,7 @@ def create_app():
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URL')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///emails.db' # os.getenv('DB_URL')
     
     return app
 
