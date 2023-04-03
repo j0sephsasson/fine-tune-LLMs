@@ -181,6 +181,12 @@ def add_header(response):
 
 @app.route('/job_status/<job_id>', methods=['GET'])
 def job_status(job_id):
+    """
+    Check the status of a specific job.
+
+    :param job_id: The ID of the job to check.
+    :return: A JSON object containing the job status.
+    """
     try:
         job = q.fetch_job(job_id)
     except NoSuchJobError:
@@ -195,6 +201,11 @@ def job_status(job_id):
     
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
+    """
+    Subscribe a user to email updates.
+
+    :return: A JSON object containing success status and a message or error.
+    """
     if request.method == 'POST':
         email = request.form['email']
 
@@ -221,6 +232,11 @@ def subscribe():
 
 @app.route('/submit_feedback', methods=['POST'])
 def submit_feedback():
+    """
+    Submit user feedback.
+
+    :return: A JSON object containing success status and a message or error.
+    """
     if request.method == 'POST':
         email = request.form['email']
         feedback = request.form['feedback']
