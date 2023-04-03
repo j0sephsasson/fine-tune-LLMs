@@ -202,6 +202,17 @@ def subscribe():
             new_email = Email(email=email)
             db.session.add(new_email)
             db.session.commit()
+
+            msg = Message("New Subscriber",
+                          recipients=[os.getenv('MAIL_USERNAME_PERSONAL')])
+            msg.body = "New Pathway.AI Subscriber!\n\nEmail: {}".format(email)
+            mail.send(msg)
+
+            msg = Message("Welcome to Pathway-AI Email Updates!",
+                          recipients=[str(email)])
+            msg.body = "Thank you for subscribing to Pathway-AI email updates! We're thrilled to have you on board, and we can't wait to share the latest news, features, and improvements with you."
+            mail.send(msg)
+
             return jsonify({'success': True, 'message': 'You have successfully subscribed'})
         else:
             return jsonify({'success': False, 'error': 'Please enter your email'})
