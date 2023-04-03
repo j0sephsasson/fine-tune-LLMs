@@ -9,7 +9,7 @@ load_dotenv()
 def create_app():
     app = Flask(__name__)
 
-    app.wsgi_app = RedirectToCustomDomainMiddleware(app.wsgi_app, 'www.pathway-ai.io')
+    # app.wsgi_app = RedirectToCustomDomainMiddleware(app.wsgi_app, 'www.pathway-ai.io')
     
     # Configure session
     app.secret_key = os.getenv('FLASK_SECRET_KEY')
