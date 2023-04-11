@@ -177,9 +177,11 @@
                             <label for="file">Choose file</label>
                             <input type="submit" value="Upload" class="cta" />
                         </div>
-                        <div id="spinner" class="spinner hidden"></div>
                     </form>
                     <div id="spinner" class="spinner hidden"></div>
+                    <div id="still-working-text" class="still-working">
+                        <p>Still working...</p>
+                    </div>
                 </div>
             </div>
             <div id="query-container">
@@ -189,7 +191,7 @@
                         <div class="input-container">
                             <div class="input-wrapper full-width-flex" style="display: flex;">
                                 <!-- Add this wrapper div -->
-                                <input type="text" id="prompt" name="prompt" required />
+                                <input type="text" id="prompt" name="prompt" required maxlength="4000"/>
                                 <button type="submit" id="submit-btn">
                                     <i class="fas fa-check fa-1x"></i>
                                 </button>

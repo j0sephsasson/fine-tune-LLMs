@@ -2,6 +2,14 @@ document.querySelector('#file').onchange = function() {
     document.querySelector('label[for="file"]').textContent = this.files[0].name;
 };
 
+function showStillWorkingMessage() {
+    const stillWorkingText = document.getElementById('still-working-text');
+    stillWorkingText.style.display = 'block';
+    setTimeout(() => {
+        stillWorkingText.classList.add('show');
+    }, 100);
+}
+
 async function checkJobStatus(jobId) {
     const statusResponse = await fetch(`/job_status/${jobId}`);
     const statusResult = await statusResponse.json();
@@ -13,6 +21,11 @@ async function checkJobStatus(jobId) {
         // Hide the interactive-demo-card
         document.querySelector('#interactive-demo-card').style.display = 'none';
 
+        // Hide the 'still working' message when the job is finished
+        const stillWorkingText = document.getElementById('still-working-text');
+        stillWorkingText.style.display = 'none';
+        stillWorkingText.classList.remove('show');
+
         const outputKey = statusResult.result;
 
         document.querySelector('#query-container').style.display = 'block';
@@ -23,8 +36,17 @@ async function checkJobStatus(jobId) {
         // Hide the spinner and show the buttons
         document.querySelector('#spinner').classList.add('hidden');
         document.querySelector('#file-and-upload').classList.remove('hidden');
+
+        // Hide the 'still working' message when the job failed
+        const stillWorkingText = document.getElementById('still-working-text');
+        stillWorkingText.style.display = 'none';
+        stillWorkingText.classList.remove('show');
+
         alert('File processing failed.');
     } else {
+        // Show the 'still working' message after 'x' seconds (e.g., 5 seconds)
+        setTimeout(showStillWorkingMessage, 7000);
+
         setTimeout(() => checkJobStatus(jobId), 1000);  // Check again after 1 second
     }
 }

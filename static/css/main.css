@@ -590,3 +590,20 @@ label:hover {
     align-items: center;
   }
 }
+
+/* Still working message (for uploads) */
+#still-working-text p {
+    font-size: 22px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#still-working-text {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+#still-working-text.show {
+    opacity: 1;
+}
