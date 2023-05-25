@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Chat Widget</title>
+
+    <!-- Include your CSS here. Either inline or linked from a CSS file. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+        referrerpolicy="no-referrer" />
+
+    <!-- FA ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+    <h1>My website</h1>
+    <!-- Container where your chat widget will be loaded -->
+    <div id="my-chat-widget"></div>
+
+    <!-- JavaScript files -->
+    <script src="mysdk.js"></script>
+    <script src="chatwidget.js"></script>
+
+    <!-- Initialization script -->
+    <script>
+        // Initialize the SDK and the Chat Widget
+        const sdk = new MySDK('http://127.0.0.1:5000');
+        const widget = new ChatWidget('#my-chat-widget', sdk);
+    </script>
+</body>
+
+</html>
