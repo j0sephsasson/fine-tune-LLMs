@@ -11,39 +11,47 @@ class ChatWidget {
                 <!-- Here is where the original HTML goes -->
                 <section class="my-text-white my-py-6 my-px-4 my-flex my-flex-col my-items-center my-space-y-6" id="interactive-live-demo">
                     <div class="my-w-full my-max-w-2xl">
-                        <h2 class="my-text-3xl my-font-bold my-text-center my-mb-2">Interactive Live Demo</h2>
+                        <h2 class="my-text-3xl my-font-bold my-text-center my-mb-2 my-text-accent">Interactive Live Demo</h2>
                         <p class="my-text-center my-mb-4">Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
-                        <div class="my-bg-gradient-dark my-p-6 my-rounded-lg my-shadow-lg my-transition-shadow my-hover-shadow-xl" id="demo-card">
-                            <div class="card">
-                                <h3 class="my-text-lg my-font-semibold my-mb-2">Usage Notes:</h3>
-                                <p class="my-text-sm">Only accepts '.txt' files right now.</p>
-                                <p class="my-text-sm my-mb-4">Session data is stored for 500 seconds, after that, you will need to re-upload.</p>
-                                <form id="upload-form" class="my-space-y-3">
-                                    <div id="file-and-upload" class="my-flex my-items-center my-space-x-3">
-                                        <input type="file" name="file" id="file" class="hidden" required />
-                                        <label for="file" class="cursor-pointer my-bg-dark my-text-white my-px-4 my-py-2 my-rounded-lg my-transition-colors my-hover-bg-dark-light">Choose file</label>
-                                        <input type="submit" value="Upload" class="my-px-4 my-py-2 my-rounded-lg my-bg-dark my-text-white cursor-pointer my-transition-colors my-hover-bg-dark-light" />
+                        <div class="my-flex my-justify-center">
+                            <div class="my-w-full my-max-w-2xl my-mx-auto">
+                                <div class="my-p-6 my-rounded-lg my-shadow-lg my-transition-shadow my-hover-shadow-xl" id="demo-card">
+                                    <div class="card">
+                                        <h3 class="my-text-lg my-font-semibold my-mb-2 my-text-accent">Usage Notes:</h3>
+                                        <p class="my-text-sm">Only accepts '.txt' files right now.</p>
+                                        <p class="my-text-sm my-mb-4">Session data is stored for 500 seconds, after that, you will need to re-upload.</p>
+                                        <form id="upload-form" class="my-space-y-3">
+                                            <div id="file-and-upload" class="my-flex my-items-center my-space-x-3">
+                                                <input type="file" name="file" id="file" class="hidden" required />
+                                                <label for="file" class="cursor-pointer my-bg-dark my-text-white my-px-4 my-py-2 my-rounded-lg my-transition-colors my-hover-bg-dark-light">Choose file</label>
+                                                <input type="submit" value="Upload" class="my-px-4 my-py-2 my-rounded-lg my-bg-dark my-text-white cursor-pointer my-transition-colors my-hover-bg-dark-light" />
+                                            </div>
+                                        </form>
+                                        <div id="spinner" class="spinner hidden"></div>
+                                        <div id="still-working-text" class="still-working">
+                                            <p>Still working...</p>
+                                        </div>
                                     </div>
-                                </form>
-                                <div id="spinner" class="spinner hidden"></div>
-                                <div id="still-working-text" class="still-working">
-                                    <p>Still working...</p>
                                 </div>
                             </div>
                         </div>
                         <div id="query-container" class="my-mt-6 hidden">
-                            <div id="terminal" class="my-bg-dark my-p-6 my-rounded-lg my-transition-shadow my-hover-shadow-xl">
-                                <div class="messages"></div>
-                                <form id="query-form" class="my-mt-4">
-                                    <div class="input-container my-flex my-items-center my-space-x-3">
-                                        <input type="text" id="prompt" name="prompt" class="my-flex-grow my-py-2 my-px-4 my-rounded-lg my-bg-dark-light my-text-white" required maxlength="4000"/>
-                                        <button type="submit" id="submit-btn" class="my-px-4 my-py-2 my-rounded-lg my-bg-green my-text-white my-transition-colors my-hover-bg-green-dark">
-                                            <i class="fas fa-check"></i>
-                                        </button>
+                            <div class="my-flex my-justify-center">
+                                <div class="my-w-full my-max-w-2xl my-mx-auto">
+                                    <div id="terminal" class="my-bg-dark my-p-6 my-rounded-lg my-transition-shadow my-hover-shadow-xl">
+                                        <div class="messages"></div>
+                                        <form id="query-form" class="my-mt-4">
+                                            <div class="input-container my-flex my-items-center my-space-x-3">
+                                                <input type="text" id="prompt" name="prompt" class="my-flex-grow my-py-2 my-px-4 my-rounded-lg my-bg-dark-light my-text-white" required maxlength="4000"/>
+                                                <button type="submit" id="submit-btn" class="my-px-4 my-py-2 my-rounded-lg my-bg-accent my-text-white my-transition-colors my-hover-bg-accent-dark">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <div id="loading-container" style="display: none;">
+                                            <div class="spinner-query"></div>
+                                        </div>
                                     </div>
-                                </form>
-                                <div id="loading-container" style="display: none;">
-                                    <div class="spinner-query"></div>
                                 </div>
                             </div>
                         </div>
