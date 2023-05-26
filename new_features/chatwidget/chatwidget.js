@@ -5,129 +5,24 @@ class ChatWidget {
 
         // Define the HTML code with Tailwind CSS classes.
         const html = `
-        <style>
-            /* Import Google Font */
-            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-        
-            /* General Styles */
-            * {
-                box-sizing: border-box;
-                font-family: 'Roboto', sans-serif;
-            }
-        
-            .chat-widget {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                width: 90px;
-                height: 90px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
-                background: linear-gradient(145deg, #000000, #1a1a1a);
-                box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
-                overflow: hidden;
-            }
-
-            .chat-widget.expanded {
-                width: 800px;
-                height: 600px;
-                border-radius: 20px;
-                padding: 20px;
-                background-color: #1F2937;
-            }
-
-            .chat-content {
-                display: none;
-                overflow: auto;
-                height: 90%;
-            }
-
-            .chat-widget.expanded .chat-content {
-                display: block;
-            }
-
-            .chat-widget-icon {
-                display: block;
-            }
-
-            .chat-widget.expanded .chat-widget-icon {
-                display: none;
-            }
-
-            .spinner-query {
-                border: 4px solid rgba(255, 255, 255, 0.1);
-                border-left-color: #fff;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                animation: spin-query 1s linear infinite;
-            }
-
-            @keyframes spin-query {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-
-            .spinner {
-                border: 6px solid rgba(255, 255, 255, 0.1);
-                border-left-color: #fff;
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                animation: spin 1s linear infinite;
-                margin: 0 auto;
-                transition: all 0.3s ease-in-out;
-            }
-
-            @keyframes spin {
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-
-            #still-working-text p {
-                font-size: 22px;
-                color: #ffffff;
-                font-weight: bold;
-            }
-
-            #still-working-text {
-                display: none;
-                opacity: 0;
-                transition: opacity 0.3s ease-in;
-            }
-
-            #still-working-text.show {
-                opacity: 1;
-            }
-        </style>
-        <div class="chat-widget bg-gray-900 p-6 rounded-lg shadow-lg transition-shadow hover:shadow-xl" id="interactive-demo-card">
-            <i class="fas fa-comments chat-widget-icon text-white"></i>
+        <div class="chat-widget my-bg-dark my-padding-6 my-rounded-lg my-shadow-lg my-transition-shadow my-hover-shadow-xl" id="interactive-demo-card">
+            <i class="fas fa-comments chat-widget-icon my-text-white"></i>
             <div class="chat-content">
                 <!-- Here is where the original HTML goes -->
-                <section class="bg-gradient-to-b from-gray-900 to-gray-800 text-white py-6 px-4 flex flex-col items-center space-y-6" id="interactive-live-demo">
-                    <div class="w-full max-w-2xl">
-                        <h2 class="text-3xl font-bold text-center mb-2">Interactive Live Demo</h2>
-                        <p class="text-center mb-4">Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
-                        <div class="bg-gradient-to-b from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg transition-shadow hover:shadow-xl" id="demo-card">
+                <section class="my-text-white my-py-6 my-px-4 my-flex my-flex-col my-items-center my-space-y-6" id="interactive-live-demo">
+                    <div class="my-w-full my-max-w-2xl">
+                        <h2 class="my-text-3xl my-font-bold my-text-center my-mb-2">Interactive Live Demo</h2>
+                        <p class="my-text-center my-mb-4">Experience the power of our AI-Powered Digital Assistants through this interactive live demo.</p>
+                        <div class="my-bg-gradient-dark my-p-6 my-rounded-lg my-shadow-lg my-transition-shadow my-hover-shadow-xl" id="demo-card">
                             <div class="card">
-                                <h3 class="text-lg font-semibold mb-2">Usage Notes:</h3>
-                                <p class="text-sm">Only accepts '.txt' files right now.</p>
-                                <p class="text-sm mb-4">Session data is stored for 500 seconds, after that, you will need to re-upload.</p>
-                                <form id="upload-form" class="space-y-3">
-                                    <div id="file-and-upload" class="flex items-center space-x-3">
+                                <h3 class="my-text-lg my-font-semibold my-mb-2">Usage Notes:</h3>
+                                <p class="my-text-sm">Only accepts '.txt' files right now.</p>
+                                <p class="my-text-sm my-mb-4">Session data is stored for 500 seconds, after that, you will need to re-upload.</p>
+                                <form id="upload-form" class="my-space-y-3">
+                                    <div id="file-and-upload" class="my-flex my-items-center my-space-x-3">
                                         <input type="file" name="file" id="file" class="hidden" required />
-                                        <label for="file" class="cursor-pointer bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors hover:bg-gray-700">Choose file</label>
-                                        <input type="submit" value="Upload" class="px-4 py-2 rounded-lg bg-gray-800 text-white cursor-pointer transition-colors hover:bg-gray-700" />
+                                        <label for="file" class="cursor-pointer my-bg-dark my-text-white my-px-4 my-py-2 my-rounded-lg my-transition-colors my-hover-bg-dark-light">Choose file</label>
+                                        <input type="submit" value="Upload" class="my-px-4 my-py-2 my-rounded-lg my-bg-dark my-text-white cursor-pointer my-transition-colors my-hover-bg-dark-light" />
                                     </div>
                                 </form>
                                 <div id="spinner" class="spinner hidden"></div>
@@ -136,13 +31,13 @@ class ChatWidget {
                                 </div>
                             </div>
                         </div>
-                        <div id="query-container" class="mt-6 hidden">
-                            <div id="terminal" class="bg-gray-800 p-6 rounded-lg transition-shadow hover:shadow-xl">
+                        <div id="query-container" class="my-mt-6 hidden">
+                            <div id="terminal" class="my-bg-dark my-p-6 my-rounded-lg my-transition-shadow my-hover-shadow-xl">
                                 <div class="messages"></div>
-                                <form id="query-form" class="mt-4">
-                                    <div class="input-container flex items-center space-x-3">
-                                        <input type="text" id="prompt" name="prompt" class="flex-grow py-2 px-4 rounded-lg bg-gray-700 text-white" required maxlength="4000"/>
-                                        <button type="submit" id="submit-btn" class="px-4 py-2 rounded-lg bg-green-500 text-white transition-colors hover:bg-green-600">
+                                <form id="query-form" class="my-mt-4">
+                                    <div class="input-container my-flex my-items-center my-space-x-3">
+                                        <input type="text" id="prompt" name="prompt" class="my-flex-grow my-py-2 my-px-4 my-rounded-lg my-bg-dark-light my-text-white" required maxlength="4000"/>
+                                        <button type="submit" id="submit-btn" class="my-px-4 my-py-2 my-rounded-lg my-bg-green my-text-white my-transition-colors my-hover-bg-green-dark">
                                             <i class="fas fa-check"></i>
                                         </button>
                                     </div>
