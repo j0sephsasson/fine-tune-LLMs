@@ -41,7 +41,7 @@ q = Queue(connection=r)
 mail.init_app(app)
 db.init_app(app)
 
-SECRET_KEY = os.getenv('JWT_SECRET')
+SECRET_KEY = str(os.getenv('JWT_SECRET'))
 
 def create_token(data, secret_key):
     payload = {
