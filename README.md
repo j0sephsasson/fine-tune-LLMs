@@ -1,33 +1,63 @@
-# Pathway.AI
+# Pathway.AI Widget
 
-Pathway.AI is an application that enables companies or individuals to quickly and easily create and deploy intelligent digital assistants. Using state-of-the-art machine learning techniques and open-source tools such as llama_index and langchain, Pathway.AI fine-tunes the chatGPT (gpt-3.5-turbo) model on the user's unique domain-specific data, creating a powerful expert digital AI bot.
+Pathway.AI widget is an exciting feature enabling integration of cutting-edge AI technology into your websites. With the widget, you can create a "custom-trained" language model for your users, leveraging your own unique domain-specific data to enhance the conversational AI experience.
 
-## Features
+## Widget Features
 
-* Fine-tunes chatGPT (gpt-3.5-turbo) on the user's unique domain-specific data to create a powerful expert digital AI bot.
-* Uses open-source tools such as llama_index and langchain to compute embeddings and store the data in chunks in the vector space, making it highly efficient to query.
-* Incorporates retrieved information into the prompt sent to GPT, providing it with the necessary context to answer questions.
-* Backend is built with Flask (Python) and AWS Lambda functions.
+* Embed a powerful AI chatbot, "fine-tuned" on your domain-specific data, onto your website. 
+* Employs leading open-source tools such as llama_index and langchain to efficiently store and query your data.
+* Gives GPT-3.5-turbo the necessary context to answer questions by incorporating the retrieved information into the prompt.
+* Built with a lightweight and efficient backend using Flask (Python) and AWS Lambda functions.
+  
+## How to Embed the Pathway.AI Widget
 
-## Getting Started
+The Pathway.AI widget can be effortlessly added to your webpage with just a few lines of code.
 
-Currently working on making it easier to set up and run the application locally. Please stay tuned for updates.
+### Step-by-step Guide
 
-In the meantime, if you are interested in using the application, please be aware that the current version relies heavily on AWS Lambda and S3, and that there are several security considerations that need to be taken into account when setting up and running the application.
+1. **Add CSS for Styles and Icons**
 
-I recommend that you use the application in a production environment only after thoroughly understanding the security implications and taking appropriate measures to secure your AWS resources and data.
+    Add the following lines to your webpage's `<head>` section to link to our CSS for styling and Font Awesome icons.
 
-## Usage
+    ```html
+    <link rel="stylesheet" type="text/css" href="https://d39ca5zn8smvpd.cloudfront.net/styles.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    ```
 
-1. Upload your domain-specific data to the application.
-2. Fine-tune the chatGPT model on your data.
-3. Deploy your expert digital AI bot.
+2. **Add the Widget Container**
 
+    Add the following `<div>` where you want the chat widget to appear in your webpage's `<body>` section.
+
+    ```html
+    <div id="my-chat-widget"></div>
+    ```
+
+3. **Include JavaScript Files**
+
+    Include the following script tags in your webpage's `<body>` section to link to our JavaScript SDK and the chat widget script.
+
+    ```html
+    <script src="https://d39ca5zn8smvpd.cloudfront.net/sdk.min.js"></script>
+    <script src="https://d39ca5zn8smvpd.cloudfront.net/chatwidget_v2.min.js"></script>
+    ```
+
+4. **Initialize the SDK and Chat Widget**
+
+    Finally, initialize our SDK and the Chat Widget using the following script in your webpage's `<body>` section.
+
+    ```html
+    <script>
+    const sdk = new MySDK('https://www.pathway-ai.io');
+    const widget = new ChatWidget('#my-chat-widget', sdk);
+    </script>
+    ```
+
+That's it! The Pathway.AI chat widget is now ready to go on your website, offering your users a unique, custom AI chatbot experience.
 
 ## Contributing
 
-We welcome contributions from the community! Please read CONTRIBUTING.md for details on how to contribute to this project.
+We value and welcome contributions from our community! Please consult CONTRIBUTING.md for details on how you can contribute to this project.
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0.
+This project operates under the GNU General Public License v3.0.
