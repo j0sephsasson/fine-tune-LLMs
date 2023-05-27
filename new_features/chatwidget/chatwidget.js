@@ -91,8 +91,9 @@ class ChatWidget {
 
         const file = this.fileInput.files[0];
 
-        if (file.type !== 'text/plain') {
-            alert('Only .txt files are allowed.');
+        /// Check if the file is a .txt, .pdf, or .docx file
+        if (file.type !== 'text/plain' && file.type !== 'application/pdf' && file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            alert('Only .txt, .pdf, and .docx files are allowed.');
             location.reload();
             return;
         }
