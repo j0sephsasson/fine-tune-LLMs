@@ -19,7 +19,7 @@ class ChatWidget {
                                     <div class="my-p-6 my-rounded-lg my-shadow-lg my-transition-shadow my-hover-shadow-xl" id="demo-card">
                                         <div class="card my-mt-6">
                                             <h3 class="my-text-lg my-font-semibold my-mb-2 my-text-accent my-text-center">Usage Notes:</h3>
-                                            <p class="my-text-sm my-text-center">Only accepts '.txt' files right now.</p>
+                                            <p class="my-text-sm my-text-center">Accepted file types: txt, PDF, docx</p>
                                             <p class="my-text-sm my-mb-4 my-text-center">Session data is stored for 500 seconds, after that, you will need to re-upload.</p>
                                 
                                             <form id="upload-form" class="my-space-y-3">
