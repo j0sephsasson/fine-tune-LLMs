@@ -16,10 +16,13 @@ load_dotenv()
 def process_file(file_contents, file_ext, redis_key):
     api_url = os.getenv('TUNE_URL')
     headers = {"Authorization": os.getenv('AUTH_HEADER')}
-
+    
     file_obj = BytesIO(file_contents)
-
-    response = requests.post(api_url, headers=headers, files={"input_file": (file_ext, file_obj)})
+    
+    # Add file_ext as a parameter in the API URL
+    api_url = f"{api_url}?file_ext={file_ext}"
+    
+    response = requests.post(api_url, headers=headers, files={"input_file": file_obj})
 
     output_key = None
 
@@ -28,6 +31,5 @@ def process_file(file_contents, file_ext, redis_key):
         output_key = response_json["output_key"]
 
         logging.debug(f"Retrieved output key from AWS lambda: {output_key}")
-    
-    # Return output_key along with the redis_key
+
     return {'redis_key': redis_key, 'output_key': output_key}
