@@ -1,10 +1,10 @@
 # Pathway.AI Widget
 
-Pathway.AI widget is an exciting feature enabling integration of our AI technology into your websites. With the widget, you can create a "custom-trained" language model for your users, leveraging your own unique domain-specific data to enhance the conversational AI experience.
+Pathway.AI widget is an exciting feature enabling seamless integration of AI technology into your websites. With the widget, you can create a "custom-trained" language model for your users, leveraging your own unique domain-specific data to enhance the conversational AI experience.
 
 ## Widget Features
 
-* Embed a powerful AI chatbot, fine-tuned on your domain-specific data, onto your website. 
+* Embed a powerful AI chatbot, tailored to your domain-specific data, onto your website. 
 * Employs leading open-source tools such as llama_index and langchain to efficiently store and query your data.
 * Gives GPT-3.5-turbo the necessary context to answer questions by incorporating the retrieved information into the prompt.
 * Built with a lightweight and efficient backend using Flask (Python) and AWS Lambda functions.
