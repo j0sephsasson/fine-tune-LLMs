@@ -1,14 +1,28 @@
 # Pathway.AI Widget
 
-Pathway.AI widget is an exciting feature enabling integration of cutting-edge AI technology into your websites. With the widget, you can create a "custom-trained" language model for your users, leveraging your own unique domain-specific data to enhance the conversational AI experience.
+Pathway.AI widget is an exciting feature enabling integration of our AI technology into your websites. With the widget, you can create a "custom-trained" language model for your users, leveraging your own unique domain-specific data to enhance the conversational AI experience.
 
 ## Widget Features
 
-* Embed a powerful AI chatbot, "fine-tuned" on your domain-specific data, onto your website. 
+* Embed a powerful AI chatbot, fine-tuned on your domain-specific data, onto your website. 
 * Employs leading open-source tools such as llama_index and langchain to efficiently store and query your data.
 * Gives GPT-3.5-turbo the necessary context to answer questions by incorporating the retrieved information into the prompt.
 * Built with a lightweight and efficient backend using Flask (Python) and AWS Lambda functions.
-  
+
+![Chat Widget Example](https://github.com/j0sephsasson/fine-tune-LLMs/blob/main/ezgif-4-72e940e1b9.gif)
+
+
+## How it Works
+
+The widget works in two main steps:
+
+1. **Data Processing**: When a file is uploaded, it is offloaded to a Redis worker for processing. 
+2. **Lambda Function Call**: After the data is processed, a Lambda function is called via an API Gateway trigger to compute embeddings and store the data in a vector store.
+
+## Data Storage
+
+Computed embeddings for the vector store are safely and securely saved in Amazon S3.
+
 ## How to Embed the Pathway.AI Widget
 
 The Pathway.AI widget can be effortlessly added to your webpage with just a few lines of code.
