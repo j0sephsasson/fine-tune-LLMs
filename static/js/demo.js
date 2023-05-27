@@ -10,6 +10,7 @@ function showStillWorkingMessage() {
     }, 100);
 }
 
+let token = ''; // define for global acccess
 async function checkJobStatus(jobId) {
     const statusResponse = await fetch(`/job_status/${jobId}`);
     const statusResult = await statusResponse.json();
@@ -26,7 +27,7 @@ async function checkJobStatus(jobId) {
         stillWorkingText.style.display = 'none';
         stillWorkingText.classList.remove('show');
 
-        const outputKey = statusResult.result;
+        token = statusResult.token;
 
         document.querySelector('#query-container').style.display = 'block';
         document.querySelector('#upload-form').classList.add('hidden');
@@ -57,9 +58,9 @@ document.querySelector('#upload-form').addEventListener('submit', async (event) 
     const fileInput = document.querySelector('#file');
     const file = fileInput.files[0];
     
-    // Check if the file is a .txt file
-    if (file.type !== 'text/plain') {
-        alert('Only .txt files are allowed.');
+    /// Check if the file is a .txt, .pdf, or .docx file
+    if (file.type !== 'text/plain' && file.type !== 'application/pdf' && file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        alert('Only .txt, .pdf, and .docx files are allowed.');
         location.reload();
         return;
     }
@@ -103,7 +104,7 @@ document.querySelector('#query-form').addEventListener('submit', async (event) =
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `prompt=${encodeURIComponent(prompt)}`
+        body: `prompt=${encodeURIComponent(prompt)}&token=${encodeURIComponent(token)}`
     });
     const result = await response.json();
 

@@ -1,5 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory, session, current_app
 from flask_session import Session
+from werkzeug.utils import secure_filename
+from flask_cors import cross_origin, CORS
+import jwt
+import json
+from base64 import b64encode
+import datetime
 from flask_limiter.util import get_remote_address
 from io import BytesIO
 from dotenv import load_dotenv
@@ -35,6 +41,19 @@ q = Queue(connection=r)
 mail.init_app(app)
 db.init_app(app)
 
+SECRET_KEY = os.getenv('JWT_SECRET')
+
+def create_token(data, secret_key):
+    payload = {
+        'data': data,
+        'iat': datetime.datetime.utcnow(), # issued at
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30) # expiration
+    }
+    return jwt.encode(payload, secret_key, algorithm='HS256')
+
+def decode_token(token, secret_key):
+    return jwt.decode(token, secret_key, algorithms=['HS256'])
+
 def get_client_ip():
     """
     Get client's IP address from request headers or remote address.
@@ -58,6 +77,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
+@cross_origin()
 def upload():
     """
     Handle file upload and initiate processing.
@@ -70,18 +90,22 @@ def upload():
     """
     if request.method == 'POST':
         file = request.files['file']
-        file_contents = file.read()
 
         if file:
-            user_ip = get_client_ip()
-            session_id = str(uuid.uuid4())
+            filename = secure_filename(file.filename)
+            file_ext = os.path.splitext(filename)[1]
 
-            redis_key = f"{user_ip}-{session_id}"  # Combine the IP address and session ID
+            if file_ext in ['.txt', '.pdf', '.docx']:  # Add support for .pdf and .docx files
+                file_contents = file.read()
+                user_ip = get_client_ip()
+                session_id = str(uuid.uuid4())
+                redis_key = f"{user_ip}-{session_id}"
 
-            # Enqueue the process_file task
-            job = q.enqueue(process_file, file_contents, redis_key)
-            session['session_id'] = session_id
-            return jsonify({'success': True, 'job_id': job.id})
+                job = q.enqueue(process_file, file_contents, file_ext, redis_key)
+
+                return jsonify({'success': True, 'job_id': job.id})
+            else:
+                return jsonify({'success': False, 'error': 'Unsupported file type'})
         else:
             return jsonify({'success': False, 'error': 'No file provided'})
 
@@ -122,6 +146,7 @@ def query_interface():
     return update_query_interface()
 
 @app.route('/query_llm', methods=['POST'])
+@cross_origin()
 def interact_llm():
     """
     Handle interaction with the language model API.
@@ -131,29 +156,31 @@ def interact_llm():
     """
     llm_api_url = os.getenv('QUERY_URL')
 
-    user_ip = get_client_ip()  # Get the user's IP address
-    session_id = session.get('session_id')  # Get the session ID from the user's session
-    if session_id is None:
-        return "No session found. Please upload a file first.", 400
+    token = request.form['token']
+    token_data = decode_token(token, SECRET_KEY)  # Decode the token
 
-    redis_key = f"{user_ip}-{session_id}"  # Combine the IP address and session ID
-    output_key = current_app.config['SESSION_REDIS'].get(redis_key)  # Retrieve the output_key from Redis using the combined key
+    print(token_data)
+
+    if token_data is None:
+        print('no token data found')
+        return "No token data found. Please upload a file first.", 400
+
+    output_key = token_data['output_key']  # Retrieve output_key from token data
 
     if output_key is None:
+        print('no output key found')
         return "No output key found. Please upload a file first.", 400
 
-    output_key = output_key.decode('utf-8')
+    logging.debug(f"Retrieved output_key from token data: {output_key}")
 
-    logging.debug(f"Retrieved output_key from Redis: {output_key}")
-
-    user_input = request.form['prompt']  # get the user input from the form data
+    user_input = request.form['prompt']
 
     payload = {
         "output_key": output_key,
         "user_input": user_input
-    }  # create the payload to send to the API
+    }
 
-    response = requests.post(llm_api_url, json=payload)  # make the request to the LLM API
+    response = requests.post(llm_api_url, json=payload)
 
     if response.status_code == 200:
         response_json = response.json()
@@ -180,6 +207,7 @@ def add_header(response):
     return response
 
 @app.route('/job_status/<job_id>', methods=['GET'])
+@cross_origin()
 def job_status(job_id):
     """
     Check the status of a specific job.
@@ -190,12 +218,23 @@ def job_status(job_id):
     try:
         job = q.fetch_job(job_id)
     except NoSuchJobError:
+        print('job not found')
         return jsonify({"status": "not_found"})
 
     if job.is_failed:
+        print('job failed')
         return jsonify({"status": "failed"})
     elif job.is_finished:
-        return jsonify({"status": "finished"})
+        print('job complete')
+        result = job.result
+        redis_key, output_key = result['redis_key'], result['output_key']
+        session_id = redis_key.split('-')[1]
+
+        # Create token with session_id and output_key
+        token_data = {'session_id': session_id, 'output_key': output_key}
+        token = jwt.encode(token_data, SECRET_KEY)
+        
+        return jsonify({"status": "finished", 'token': token})
     else:
         return jsonify({"status": "pending"})
     
@@ -263,4 +302,4 @@ def submit_feedback():
     return jsonify({'success': False, 'error': 'Invalid request method'})
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, port=8080)
