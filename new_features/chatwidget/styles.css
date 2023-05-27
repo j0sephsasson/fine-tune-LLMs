@@ -25,6 +25,8 @@
 }
 
 .my-chat-widget {
+    position: relative;
+    z-index: 999;
     --bg-color: #121212;
     --bg-light-color: #1D1D1D;
     --accent-color: #FF2D88;
